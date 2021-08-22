@@ -8,7 +8,7 @@ RUN groupadd -g 999 mario && \
     useradd -r -u 999 -g mario mario
 USER mario
 RUN cd kippo && cp kippo_copy.cfg kippo.cfg && virtualenv env && . ./env/bin/activate && \
-    pip install twisted==15.1.0 pyasn1 pycrypto && ls . && ./start.sh
+    pip install twisted==15.1.0 pyasn1 pycrypto
 
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
