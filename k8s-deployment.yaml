@@ -21,4 +21,4 @@ spec:
         ports:
           - containerPort: 2222
         command: ["/bin/sh"]
-        args: ["-c", "while true; do echo hello; sleep 10;done"]
+        args: ["-c", "cd /kippo && . ./env/bin/activate && twistd -y kippo.tac -n"]
