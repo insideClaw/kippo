@@ -17,7 +17,7 @@ Two YAML files have been produced to be used with `kubectl apply`:
 ### Usage
 While the honeypot itself proved to be inadequate for modern SSH connections, you can verify the honeypot is running either by:
 1. `nc -v aae49941f5bc64f809f299265048c9e3-2094867361.eu-west-1.elb.amazonaws.com 22`
-2. `ssh ubuntu@aae49941f5bc64f809f299265048c9e3-2094867361.eu-west-1.elb.amazonaws.com `
+2. `ssh ubuntu@aae49941f5bc64f809f299265048c9e3-2094867361.eu-west-1.elb.amazonaws.com `  
 If your ssh is ancient, you might even be able to get in instead of getting a Kex error.
 
 ### Further work
