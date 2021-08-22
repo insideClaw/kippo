@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: kippo
-        image: dockercloud/hello-world
+        image: rootfox/kippo:1
         ports:
-        - containerPort: 80
+        - containerPort: 2222
