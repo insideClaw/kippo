@@ -1,67 +1,20 @@
-NOTE: For more recent development, check out [Michel Oosterhof's fork](https://github.com/micheloosterhof/cowrie)
+### Topology
+Project forked from Kippo, which initially sounded like a promising Honeypot. 
 
-# Kippo
+A Kubernetes cluster was set up from scratch, using CloudFormation templates for some of its common resources needed. An IAM user was created for the purpose and is currently the only one permitted to manage EKS resources with kubectl.
 
-Kippo is a medium interaction SSH honeypot designed to log brute force attacks and, most importantly, the entire shell interaction performed by the attacker.
+CircleCI was then used to set up a CICD pipeline, the code of which is kept in `.circleci/config.yml`. It's connected to the forked GitHub repository and on every single push to it, it builds a Docker image and pushes it into the Docker Hub after authenticating using environment variable. 
+The Dockerfile itself sets up the environment required by Kippo, including a Virtual Environment executed by a non-root user, as appropriate for a honeypot. It also sets up some basic logging.
 
-Kippo is inspired, but not based on [Kojoney](http://kojoney.sourceforge.net/).
+Two YAML files have been produced to be used with `kubectl apply`:
+1. A deployment definition, creating a K8s resource of type deployment using the custom image build and pushed by the CircleCI process. It also starts the honeypot process, ensuring resilience across pod restarts. 
+2. A service definition, setting up a load balancer and forwarding the usual port 22 to the non-root port Kippo is running on 
 
-## Demo
+### Usage
+While the honeypot proved to be inadequate for modern SSH connections, you can verify the honeypot is running either by:
+1. `nc -v aae49941f5bc64f809f299265048c9e3-2094867361.eu-west-1.elb.amazonaws.com 22`
+2. `ssh ubuntu@aae49941f5bc64f809f299265048c9e3-2094867361.eu-west-1.elb.amazonaws.com `
+If your ssh is ancient, you might even be able to get in instead of getting a Kex error.
 
-Some interesting logs from a live Kippo installation below (viewable within a web browser with the help of Ajaxterm). Note that some commands may have been improved since these logs were recorded.
-
-  * [2009-11-22](http://kippo.rpg.fi/playlog/?l=20091122-075013-5055.log)
-  * [2009-11-23](http://kippo.rpg.fi/playlog/?l=20091123-003854-3359.log)
-  * [2009-11-23](http://kippo.rpg.fi/playlog/?l=20091123-012814-626.log)
-  * [2010-03-16](http://kippo.rpg.fi/playlog/?l=20100316-233121-1847.log)
-
-## Features
-
-Some interesting features:
-* Fake filesystem with the ability to add/remove files. A full fake filesystem resembling a Debian 5.0 installation is included
-* Possibility of adding fake file contents so the attacker can 'cat' files such as /etc/passwd. Only minimal file contents are included
-* Session logs stored in an [UML Compatible](http://user-mode-linux.sourceforge.net/)  format for easy replay with original timings
-* Just like Kojoney, Kippo saves files downloaded with wget for later inspection
-* Trickery; ssh pretends to connect somewhere, exit doesn't really exit, etc
-
-## Requirements
-
-Software required:
-
-* An operating system (tested on Debian, CentOS, FreeBSD and Windows 7)
-* Python 2.5+
-* Twisted 8.0 to 15.1.0
-* PyCrypto
-* Zope Interface
-
-See Wiki for some installation instructions.
-
-## How to run it?
-
-Edit kippo.cfg to your liking and start the honeypot by running:
-
-`./start.sh`
-
-start.sh is a simple shell script that runs Kippo in the background using twistd. Detailed startup options can be given by running twistd manually. For example, to run Kippo in foreground:
-
-`twistd -y kippo.tac -n`
-
-By default Kippo listens for ssh connections on port 2222. You can change this, but do not change it to 22 as it requires root privileges. Use port forwarding instead. (More info: [MakingKippoReachable](https://github.com/desaster/kippo/wiki/Making-Kippo-Reachable)).
-
-Files of interest:
-
-* dl/ - files downloaded with wget are stored here
-* log/kippo.log - log/debug output
-* log/tty/ - session logs
-* utils/playlog.py - utility to replay session logs
-* utils/createfs.py - used to create fs.pickle
-* fs.pickle - fake filesystem
-* honeyfs/ - file contents for the fake filesystem - feel free to copy a real system here
-
-## Is it secure?
-
-Maybe. See [FAQ](https://github.com/desaster/kippo/wiki/FAQ)
-
-## I have some questions!
-
-I ~~am~~ _might be_ reachable via e-mail: *desaster* at *gmail* dot *com*, or as *desaster* on the *#honeypots* channel in the *freenode* IRC network.
+### Further work
+A TODO file has been produced, detailing further design decisions that have been identified and current limitations.
