@@ -1,0 +1,1 @@
+1. Orchestrate the `kubectl apply` deployment, moving the .yaml files to the appropriate directories
