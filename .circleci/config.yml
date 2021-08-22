@@ -4,6 +4,9 @@ jobs:
   build:
     docker:
       - image: circleci/python:2.7.14
+        auth:
+          username: rootfox
+          password: $DOCKERHUB_PASSWORD # Environment variable set in CircleCI
     steps:
       - checkout
       - setup_remote_docker:
