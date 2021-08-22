@@ -3,12 +3,11 @@ VOLUME /tmp
 COPY . /kippo
 RUN chmod 777 -R /kippo
 RUN apt update
-RUN apt -y install 
-RUN apt -y build-essential
-RUN apt -y python-dev 
-RUN apt -y libmariadb-dev 
-RUN apt -y python-virtualenv 
-RUN apt -y python-pip
+RUN apt -y install build-essential
+RUN apt -y install python-dev 
+RUN apt -y install libmariadb-dev 
+RUN apt -y install python-virtualenv 
+RUN apt -y install python-pip
 
 RUN groupadd -g 999 mario && \
     useradd -r -u 999 -g mario mario
