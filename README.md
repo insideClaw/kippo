@@ -3,7 +3,11 @@ Project forked from Kippo, a popular open source honeypot.
 
 A Kubernetes cluster was set up from scratch, using CloudFormation templates for some of its common resources needed. An IAM user was created for the purpose and is currently the only one permitted to manage EKS resources with kubectl.
 
-CircleCI was then used to set up a CICD pipeline, the code of which is kept in `.circleci/config.yml`. It's connected to the forked GitHub repository and on every single push to it, it builds a Docker image and pushes it into the Docker Hub after authenticating using environment variable. 
+An evaluation of CICD platforms was made and GitLab was attempted, however its Docker support was found lacking. CircleCI offered an almost out of the box remote Docker runner support, so it was  was then used to set up the pipeline, the code of which is kept in `.circleci/config.yml`. It's connected to the forked GitHub repository and on every single push to it:
+1. builds a Docker image
+2. Authenticates into Docker Hub using environment variable. 
+3. pushes it into the DH repository
+
 The Dockerfile itself sets up the environment required by Kippo, including a Virtual Environment executed by a non-root user, as appropriate for a honeypot. It also sets up some basic logging.
 
 Two YAML files have been produced to be used with `kubectl apply`:
