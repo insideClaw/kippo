@@ -9,5 +9,4 @@ RUN groupadd -g 999 mario && \
 RUN chmod 777 -R kippo
 USER mario
 RUN cd kippo && virtualenv env && . ./env/bin/activate && \
-    pip install twisted==15.1.0 pyasn1 pycrypto && \
-    ./start.sh
+    pip install twisted==15.1.0 pyasn1 pycrypto && ls . && ./start.sh
