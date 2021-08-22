@@ -12,6 +12,8 @@ jobs:
       - setup_remote_docker:
           version: 19.03.13
       - run:
-          name: Build Docker image
+          name: Build and push Docker image
           command: |
-            docker build -t latest .
+            - docker build --tag 1 .
+            - docker tag 1:latest rootfox/kippo:1
+            - docker push rootfox/kippo:1
