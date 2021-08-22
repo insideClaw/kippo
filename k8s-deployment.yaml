@@ -20,3 +20,5 @@ spec:
         image: rootfox/kippo:1
         ports:
           - containerPort: 2222
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do echo hello; sleep 10;done"]
