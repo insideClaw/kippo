@@ -14,6 +14,7 @@ jobs:
       - run:
           name: Build and push Docker image
           command: |
+            echo "$DOCKERHUB_PASSWORD" | docker login --username $rootfox --password-stdin
             docker build --tag 1 .
             docker tag 1:latest rootfox/kippo:1
             docker push rootfox/kippo:1
