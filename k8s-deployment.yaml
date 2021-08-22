@@ -19,6 +19,4 @@ spec:
       - name: kippo
         image: rootfox/kippo:1
         ports:
-        - containerPort: 2222
-        command:
-          - . ./env/bin/activate && twistd -n -y kippo.tac
+          - containerPort: 2222
