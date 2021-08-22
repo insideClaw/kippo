@@ -16,5 +16,5 @@ jobs:
           command: |
             echo "$DOCKERHUB_PASSWORD" | docker login --username rootfox --password-stdin
             docker build --tag latest .
-            docker tag 1:latest rootfox/kippo:latest
+            docker tag latest rootfox/kippo:latest
             docker push rootfox/kippo:latest
